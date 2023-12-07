@@ -1,0 +1,78 @@
+
+{{< include _math.qmd >}}
+
+```{r echo=FALSE, message=FALSE}
+source('_setup.R')
+```
+
+
+# Regressão linear simples
+
+## Exemplo: vendas e publicidade
+
+Exemplo baseado no livro @james21:_introd_statis_learn, com dados obtidos de <https://www.kaggle.com/datasets/ashydv/advertising-dataset/data>.
+
+Este conjunto de dados contém $4$ colunas:
+
+* `tv`: verba (em milhares de dólares) gasta em publicidade na TV;
+* `radio`: verba (em milhares de dólares) gasta em publicidade no rádio;
+* `jornal`: verba (em milhares de dólares) gasta em publicidade em jornais;
+* `vendas`: receita das vendas (em milhares de dólares).
+
+Cada observação --- isto é, cada linha --- corresponde a um produto.
+
+
+### Leitura e limpeza
+
+```{r}
+publicidade <- read_csv(
+  'dados/advertising.csv',
+  show_col_types = FALSE
+) %>% 
+  janitor::clean_names() %>% 
+  rename(
+    jornal = newspaper,
+    vendas = sales
+  )
+
+publicidade
+```
+
+
+### Divisão em dados de treino e teste
+
+```{r}
+split <- initial_split(publicidade)
+treino <- training(split)
+teste <- testing(split)
+split
+```
+
+
+### Vendas por verba gasta em TV
+
+#### Análise exploratória
+
+Começamos visualizando os dados:
+
+```{r}
+treino %>% 
+  ggplot(aes(tv, vendas)) +
+    geom_point()
+```
+
+
+A correlação linear entre vendas e tv é
+
+```{r}
+cor(treino$vendas, treino$tv)
+```
+
+
+#### Modelo linear
+
+```{r}
+modelo <- lm(vendas ~ tv, data = treino)
+summary(modelo)
+```
+

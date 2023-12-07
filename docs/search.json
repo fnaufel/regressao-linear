@@ -1,0 +1,23 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Regressão Linear",
+    "section": "",
+    "text": "% reais % seno\n% vetor\n% vetor e_i\n% blade\n% reverso (til em cima) \\providecommand{}[1]{#1^{~}} % reverso (til à direita) % contração à esq % contração à dir % grau\n% inverso\n% dual\n% undual\n% projeção\n\n\nApresentação\n???"
+  },
+  {
+    "objectID": "simples.html#exemplo-vendas-e-publicidade",
+    "href": "simples.html#exemplo-vendas-e-publicidade",
+    "title": "\n1  Regressão linear simples\n",
+    "section": "\n1.1 Exemplo: vendas e publicidade",
+    "text": "1.1 Exemplo: vendas e publicidade\nExemplo baseado no livro James et al. (2021), com dados obtidos de https://www.kaggle.com/datasets/ashydv/advertising-dataset/data.\nEste conjunto de dados contém \\(4\\) colunas:\n\n\ntv: verba (em milhares de dólares) gasta em publicidade na TV;\n\nradio: verba (em milhares de dólares) gasta em publicidade no rádio;\n\njornal: verba (em milhares de dólares) gasta em publicidade em jornais;\n\nvendas: receita das vendas (em milhares de dólares).\n\nCada observação — isto é, cada linha — corresponde a um produto.\nLeitura e limpeza\n\npublicidade &lt;- read_csv(\n  'dados/advertising.csv',\n  show_col_types = FALSE\n) %&gt;% \n  janitor::clean_names() %&gt;% \n  rename(\n    jornal = newspaper,\n    vendas = sales\n  )\n\npublicidade\n\n\n\n  \n\n\n\nDivisão em dados de treino e teste\n\nsplit &lt;- initial_split(publicidade)\ntreino &lt;- training(split)\nteste &lt;- testing(split)\nsplit\n\n&lt;Training/Testing/Total&gt;\n&lt;150/50/200&gt;\n\n\nVendas por verba gasta em TV\nAnálise exploratória\nComeçamos visualizando os dados:\n\ntreino %&gt;% \n  ggplot(aes(tv, vendas)) +\n    geom_point()\n\n\n\n\n\n\n\nA correlação linear entre vendas e tv é\n\ncor(treino$vendas, treino$tv)\n\n[1] 0,9035387\n\n\nModelo linear\n\nmodelo &lt;- lm(vendas ~ tv, data = treino)\nsummary(modelo)\n\n\nCall:\nlm(formula = vendas ~ tv, data = treino)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-6,4978 -1,5473 -0,0973  1,6696  5,6700 \n\nCoefficients:\n            Estimate Std. Error t value            Pr(&gt;|t|)    \n(Intercept) 6,923397   0,369956   18,71 &lt;0,0000000000000002 ***\ntv          0,055840   0,002177   25,65 &lt;0,0000000000000002 ***\n---\nSignif. codes:  0 '***' 0,001 '**' 0,01 '*' 0,05 '.' 0,1 ' ' 1\n\nResidual standard error: 2,286 on 148 degrees of freedom\nMultiple R-squared:  0,8164,    Adjusted R-squared:  0,8151 \nF-statistic:   658 on 1 and 148 DF,  p-value: &lt; 0,00000000000000022\n\n\n\n\n\n\n\n\nJames, Gareth, Daniela Witten, Trevor Hastie, e Robert Tibshirani. 2021. An Introduction to Statistical Learning: With Applications in R. 2.ª ed. Springer Publishing Company, Incorporated. https://www.statlearning.com/."
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "Referências",
+    "section": "",
+    "text": "James, Gareth, Daniela Witten, Trevor Hastie, e Robert Tibshirani. 2021.\nAn Introduction to Statistical Learning: With Applications in\nR. 2.ª ed. Springer Publishing Company, Incorporated. https://www.statlearning.com/."
+  }
+]
