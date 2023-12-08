@@ -193,10 +193,32 @@ div.csl-indent {
   <ul>
 <li>
 <a href="#exemplo-vendas-e-publicidade" id="toc-exemplo-vendas-e-publicidade" class="nav-link active" data-scroll-target="#exemplo-vendas-e-publicidade"><span class="header-section-number">1.1</span> Exemplo: vendas e publicidade</a>
-  <ul class="collapse">
+  <ul>
 <li><a href="#leitura-e-limpeza" id="toc-leitura-e-limpeza" class="nav-link" data-scroll-target="#leitura-e-limpeza">Leitura e limpeza</a></li>
   <li><a href="#divis%C3%A3o-em-dados-de-treino-e-teste" id="toc-divisão-em-dados-de-treino-e-teste" class="nav-link" data-scroll-target="#divis%C3%A3o-em-dados-de-treino-e-teste">Divisão em dados de treino e teste</a></li>
-  <li><a href="#vendas-por-verba-gasta-em-tv" id="toc-vendas-por-verba-gasta-em-tv" class="nav-link" data-scroll-target="#vendas-por-verba-gasta-em-tv">Vendas por verba gasta em TV</a></li>
+  <li>
+<a href="#vendas-por-verba-gasta-em-tv" id="toc-vendas-por-verba-gasta-em-tv" class="nav-link" data-scroll-target="#vendas-por-verba-gasta-em-tv">Vendas por verba gasta em TV</a>
+  <ul class="collapse">
+<li><a href="#an%C3%A1lise-explorat%C3%B3ria" id="toc-análise-exploratória" class="nav-link" data-scroll-target="#an%C3%A1lise-explorat%C3%B3ria">Análise exploratória</a></li>
+  <li><a href="#lm-vendas-tv" id="toc-lm-vendas-tv" class="nav-link" data-scroll-target="#lm-vendas-tv">Modelo linear</a></li>
+  </ul>
+</li>
+  </ul>
+</li>
+  <li>
+<a href="#teoria" id="toc-teoria" class="nav-link" data-scroll-target="#teoria"><span class="header-section-number">1.2</span> Teoria</a>
+  <ul>
+<li><a href="#estimativas-hatbeta_0-e-hatbeta_1" id="toc-estimativas-hatbeta_0-e-hatbeta_1" class="nav-link" data-scroll-target="#estimativas-hatbeta_0-e-hatbeta_1">Estimativas <span class="math inline">\(\hat{\beta_0}\)</span> e <span class="math inline">\(\hat{\beta_1}\)</span></a></li>
+  <li>
+<a href="#erros-padr%C3%A3o-das-estimativas" id="toc-erros-padrão-das-estimativas" class="nav-link" data-scroll-target="#erros-padr%C3%A3o-das-estimativas">Erros-padrão das estimativas</a>
+  <ul class="collapse">
+<li><a href="#espalhamento-dos-pontos-em-volta-da-reta" id="toc-espalhamento-dos-pontos-em-volta-da-reta" class="nav-link" data-scroll-target="#espalhamento-dos-pontos-em-volta-da-reta">Espalhamento dos pontos em volta da reta</a></li>
+  <li><a href="#espalhamento-de-x" id="toc-espalhamento-de-x" class="nav-link" data-scroll-target="#espalhamento-de-x">Espalhamento de <span class="math inline">\(x\)</span></a></li>
+  <li><a href="#quantidade-de-dados" id="toc-quantidade-de-dados" class="nav-link" data-scroll-target="#quantidade-de-dados">Quantidade de dados</a></li>
+  <li><a href="#juntando-tudo" id="toc-juntando-tudo" class="nav-link" data-scroll-target="#juntando-tudo">Juntando tudo</a></li>
+  <li><a href="#erro-padr%C3%A3o-do-intercepto" id="toc-erro-padrão-do-intercepto" class="nav-link" data-scroll-target="#erro-padr%C3%A3o-do-intercepto">Erro-padrão do intercepto</a></li>
+  </ul>
+</li>
   </ul>
 </li>
   </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/fnaufel/regressao-linear/edit/master/simples.qmd" class="toc-action">Editar essa página</a></p></div></div></nav>
@@ -281,9 +303,11 @@ div.csl-indent {
 <section id="análise-exploratória" class="level4"><h4 class="anchored" data-anchor-id="análise-exploratória">Análise exploratória</h4>
 <p>Começamos visualizando os dados:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">treino</span> <span class="op">%&gt;%</span> </span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">grafico</span> <span class="op">&lt;-</span> <span class="va">treino</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">tv</span>, <span class="va">vendas</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>    <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">grafico</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="simples_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
@@ -295,10 +319,10 @@ div.csl-indent {
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">treino</span><span class="op">$</span><span class="va">vendas</span>, <span class="va">treino</span><span class="op">$</span><span class="va">tv</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0,9035387</code></pre>
+<pre><code>[1] 0,8919795</code></pre>
 </div>
 </div>
-</section><section id="modelo-linear" class="level4"><h4 class="anchored" data-anchor-id="modelo-linear">Modelo linear</h4>
+</section><section id="lm-vendas-tv" class="level4"><h4 class="anchored" data-anchor-id="lm-vendas-tv">Modelo linear</h4>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">modelo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">vendas</span> <span class="op">~</span> <span class="va">tv</span>, data <span class="op">=</span> <span class="va">treino</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">modelo</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -309,25 +333,267 @@ lm(formula = vendas ~ tv, data = treino)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--6,4978 -1,5473 -0,0973  1,6696  5,6700 
+-6,0968 -1,5960 -0,0152  1,6301  5,2086 
 
 Coefficients:
             Estimate Std. Error t value            Pr(&gt;|t|)    
-(Intercept) 6,923397   0,369956   18,71 &lt;0,0000000000000002 ***
-tv          0,055840   0,002177   25,65 &lt;0,0000000000000002 ***
+(Intercept) 7,185427   0,373754   19,23 &lt;0,0000000000000002 ***
+tv          0,053478   0,002228   24,00 &lt;0,0000000000000002 ***
 ---
 Signif. codes:  0 '***' 0,001 '**' 0,01 '*' 0,05 '.' 0,1 ' ' 1
 
-Residual standard error: 2,286 on 148 degrees of freedom
-Multiple R-squared:  0,8164,    Adjusted R-squared:  0,8151 
-F-statistic:   658 on 1 and 148 DF,  p-value: &lt; 0,00000000000000022</code></pre>
+Residual standard error: 2,289 on 148 degrees of freedom
+Multiple R-squared:  0,7956,    Adjusted R-squared:  0,7942 
+F-statistic: 576,2 on 1 and 148 DF,  p-value: &lt; 0,00000000000000022</code></pre>
 </div>
 </div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">modelo_tidy</span> <span class="op">&lt;-</span> <span class="fu">tidy</span><span class="op">(</span><span class="va">modelo</span><span class="op">)</span></span>
+<span><span class="va">modelo_tidy</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["term"],"name":[1],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["std.error"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"(Intercept)","2":"7,18542741","3":"0,373754231","4":"19,22501","5":"4,485308e-42"},{"1":"tv","2":"0,05347843","3":"0,002227943","4":"24,00350","5":"6,858734e-53"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">b0</span> <span class="op">&lt;-</span> <span class="va">modelo_tidy</span><span class="op">$</span><span class="va">estimate</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span><span class="va">b1</span> <span class="op">&lt;-</span> <span class="va">modelo_tidy</span><span class="op">$</span><span class="va">estimate</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">grafico</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_abline</span><span class="op">(</span></span>
+<span>    intercept <span class="op">=</span> <span class="va">b0</span>,</span>
+<span>    slope <span class="op">=</span> <span class="va">b1</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">'blue'</span></span>
+<span>  <span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="simples_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A equação da reta é</p>
+<p><span class="math display">\[
+\begin{aligned}
+  \widehat{\text{vendas}}
+  &amp;= \hat{\beta_0} + \hat{\beta_1} \cdot \text{tv} \\
+  &amp;= 7{,}19 + 0{,}05 \cdot \text{tv}
+\end{aligned}
+\]</span></p>
+</section></section></section><section id="teoria" class="level2" data-number="1.2"><h2 data-number="1.2" class="anchored" data-anchor-id="teoria">
+<span class="header-section-number">1.2</span> Teoria</h2>
+<section id="estimativas-hatbeta_0-e-hatbeta_1" class="level3"><h3 class="anchored" data-anchor-id="estimativas-hatbeta_0-e-hatbeta_1">Estimativas <span class="math inline">\(\hat{\beta_0}\)</span> e <span class="math inline">\(\hat{\beta_1}\)</span>
+</h3>
+<p>Os valores achados são estimativas para <span class="math inline">\(\beta_0\)</span> e <span class="math inline">\(\beta_1\)</span>, baseadas nos dados do conjunto de treino.</p>
+<p>Por isso, os valores de <code>vendas</code> obtidos com esta equação também são estimativas.</p>
+<p>Vamos escrever estimativas com o acento circunflexo (chapéu) sobre os símbolos.</p>
+<p>De onde vêm os valores de <span class="math inline">\(\hat{\beta_0}\)</span> e <span class="math inline">\(\hat{\beta_1}\)</span>?</p>
+<p>Resposta: são os valores que fazem com que a soma dos quadrados das distâncias verticais dos pontos à reta seja a menor possível.</p>
+<p>(Estas distâncias são chamadas de <span class="hl">resíduos</span>.)</p>
+<p><a href="https://fnaufel.github.io/probestr/regr.html#como-achar-a-equa%C3%A7%C3%A3o-da-melhor-reta-com-c%C3%A1lculo">Consulte este material</a> para ver os detalhes sobre o cálculo de <span class="math inline">\(\hat{\beta_0}\)</span> e <span class="math inline">\(\hat{\beta_1}\)</span>.</p>
+</section><section id="erros-padrão-das-estimativas" class="level3"><h3 class="anchored" data-anchor-id="erros-padrão-das-estimativas">Erros-padrão das estimativas</h3>
+<p>Vamos pensar nas incertezas associadas aos valores de <span class="math inline">\(\hat{\beta_0}\)</span> e <span class="math inline">\(\hat{\beta_1}\)</span>, com base na excelente discussão em <span class="citation" data-cites="de15:_stats">(<a href="references.html#ref-de15:_stats" role="doc-biblioref">De Veaux, Velleman e Bock 2016, cap. 25</a>)</span>.</p>
+<p>Quais são os fatores que afetam a nossa confiança na reta de regressão?</p>
+<p>Mais especificamente, <span class="hl">quais os fatores que afetam nossa confiança no valor estimado <span class="math inline">\(\hat\beta_1\)</span></span> (a inclinação da reta)?</p>
+<section id="espalhamento-dos-pontos-em-volta-da-reta" class="level4"><h4 class="anchored" data-anchor-id="espalhamento-dos-pontos-em-volta-da-reta">Espalhamento dos pontos em volta da reta</h4>
+<p>Quanto mais afastados da reta estiverem os dados, menor a nossa confiança de que a reta captura a variação de uma variável em função da outra.</p>
+<p>Observe a <a href="#fig-spread">Figura&nbsp;<span>1.1</span></a>. O gráfico da esquerda nos dá mais certeza de que uma reta de regressão terá uma inclinação bem próxima da taxa de variação de <span class="math inline">\(y\)</span> em função de <span class="math inline">\(x\)</span> na população.</p>
+<div id="fig-spread" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><p><img src="images/spread.png" class="img-fluid figure-img" style="width:100.0%" alt="Dois gráficos de dispersão"></p>
+<figcaption class="figure-caption">Figura&nbsp;1.1: Espalhamento dos pontos</figcaption></figure>
+</div>
+<p>Este espalhamento é medido pelo <span class="hl">desvio-padrão dos resíduos</span>.</p>
+<p><a href="#lm-vendas-tv">No exemplo das vendas</a>, este desvio-padrão dos resíduos é calculado como</p>
+<p><span class="math display">\[
+\displaystyle
+\sqrt{
+\frac{\sum_i (\text{vendas}_i - \widehat{\text{vendas}}_i)^2}{n-2}
+}
+\]</span></p>
+<p>No numerador, o valor <span class="math inline">\(\text{vendas}_i - \widehat{\text{vendas}}_i\)</span> é o resíduo da observação <span class="math inline">\(i\)</span>.</p>
+<p>As <code>vendas</code> estimadas para cada valor de <code>tv</code> e os valores dos resíduos podem ser acessados assim:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">modelo_augment</span> <span class="op">&lt;-</span> <span class="fu">augment</span><span class="op">(</span><span class="va">modelo</span><span class="op">)</span></span>
+<span><span class="va">modelo_augment</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">vendas</span>, <span class="va">tv</span>, <span class="va">.fitted</span>, <span class="va">.resid</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["vendas"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["tv"],"name":[2],"type":["dbl"],"align":["right"]},{"label":[".fitted"],"name":[3],"type":["dbl"],"align":["right"]},{"label":[".resid"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"20,9","2":"240,1","3":"20,025598","4":"0,87440171"},{"1":"11,0","2":"116,0","3":"13,388925","4":"-2,38892521"},{"1":"10,1","2":"44,7","3":"9,575913","4":"0,52408680"},{"1":"16,7","2":"222,4","3":"19,079030","4":"-2,37903009"},{"1":"18,4","2":"225,8","3":"19,260857","4":"-0,86085675"},{"1":"9,5","2":"25,6","3":"8,554475","4":"0,94552480"},{"1":"5,7","2":"8,4","3":"7,634646","4":"-1,93464622"},{"1":"16,9","2":"234,5","3":"19,726119","4":"-2,82611909"},{"1":"10,4","2":"104,6","3":"12,779271","4":"-2,37927112"},{"1":"17,7","2":"265,2","3":"21,367907","4":"-3,66790687"},{"1":"20,5","2":"184,9","3":"17,073589","4":"3,42641101"},{"1":"19,8","2":"280,2","3":"22,170083","4":"-2,37008331"},{"1":"16,7","2":"109,8","3":"13,057359","4":"3,64264105"},{"1":"22,3","2":"216,8","3":"18,779551","4":"3,52044911"},{"1":"5,3","2":"5,4","3":"7,474211","4":"-2,17421093"},{"1":"12,6","2":"75,1","3":"11,201657","4":"1,39834255"},{"1":"13,7","2":"97,5","3":"12,399574","4":"1,30042573"},{"1":"10,6","2":"87,2","3":"11,848746","4":"-1,24874645"},{"1":"24,2","2":"261,3","3":"21,159341","4":"3,04065900"},{"1":"16,5","2":"151,5","3":"15,287409","4":"1,21259055"},{"1":"10,8","2":"39,5","3":"9,297825","4":"1,50217463"},{"1":"10,9","2":"38,0","3":"9,217608","4":"1,68239228"},{"1":"21,5","2":"228,0","3":"19,378509","4":"2,12149070"},{"1":"19,4","2":"217,7","3":"18,827681","4":"0,57231852"},{"1":"7,0","2":"18,8","3":"8,190822","4":"-1,19082188"},{"1":"19,6","2":"166,8","3":"16,105629","4":"3,49437058"},{"1":"11,3","2":"69,0","3":"10,875439","4":"0,42456097"},{"1":"17,2","2":"206,8","3":"18,244767","4":"-1,04476660"},{"1":"16,6","2":"224,0","3":"19,164596","4":"-2,56459558"},{"1":"23,2","2":"239,9","3":"20,014903","4":"3,18509739"},{"1":"12,0","2":"90,4","3":"12,019877","4":"-0,01987742"},{"1":"1,6","2":"0,7","3":"7,222862","4":"-5,62286231"},{"1":"12,0","2":"76,3","3":"11,265832","4":"0,73416843"},{"1":"16,6","2":"202,5","3":"18,014809","4":"-1,41480935"},{"1":"14,6","2":"78,2","3":"11,367441","4":"3,23255942"},{"1":"12,4","2":"109,8","3":"13,057359","4":"-0,65735895"},{"1":"12,9","2":"131,7","3":"14,228537","4":"-1,32853655"},{"1":"17,1","2":"177,0","3":"16,651109","4":"0,44889060"},{"1":"20,7","2":"293,6","3":"22,886694","4":"-2,18669426"},{"1":"10,4","2":"44,5","3":"9,565218","4":"0,83478249"},{"1":"12,2","2":"139,2","3":"14,629625","4":"-2,42962477"},{"1":"22,6","2":"205,0","3":"18,148505","4":"4,45149458"},{"1":"19,8","2":"227,2","3":"19,335727","4":"0,46427344"},{"1":"23,8","2":"296,4","3":"23,036434","4":"0,76356613"},{"1":"16,4","2":"199,8","3":"17,870418","4":"-1,47041759"},{"1":"19,6","2":"219,8","3":"18,939986","4":"0,66001382"},{"1":"10,1","2":"149,8","3":"15,196496","4":"-5,09649612"},{"1":"16,0","2":"171,3","3":"16,346282","4":"-0,34628235"},{"1":"5,5","2":"7,3","3":"7,575820","4":"-2,07581994"},{"1":"11,6","2":"48,3","3":"9,768436","4":"1,83156445"},{"1":"17,0","2":"262,9","3":"21,244906","4":"-4,24490648"},{"1":"12,3","2":"96,2","3":"12,330052","4":"-0,03005231"},{"1":"17,5","2":"164,5","3":"15,982629","4":"1,51737096"},{"1":"13,2","2":"120,2","3":"13,613535","4":"-0,41353462"},{"1":"16,9","2":"163,3","3":"15,918455","4":"0,98154508"},{"1":"17,5","2":"237,4","3":"19,881207","4":"-2,38120653"},{"1":"11,9","2":"95,7","3":"12,303313","4":"-0,40331310"},{"1":"8,0","2":"17,9","3":"8,142691","4":"-0,14269129"},{"1":"17,1","2":"215,4","3":"18,704681","4":"-1,60468109"},{"1":"20,2","2":"193,2","3":"17,517460","4":"2,68254004"},{"1":"11,6","2":"121,0","3":"13,656317","4":"-2,05631736"},{"1":"15,6","2":"199,8","3":"17,870418","4":"-2,27041759"},{"1":"5,3","2":"13,1","3":"7,885995","4":"-2,58599483"},{"1":"19,2","2":"193,7","3":"17,544199","4":"1,65580083"},{"1":"11,3","2":"75,3","3":"11,212353","4":"0,08764686"},{"1":"10,3","2":"139,5","3":"14,645668","4":"-4,34566830"},{"1":"14,6","2":"147,3","3":"15,062800","4":"-0,46280005"},{"1":"18,3","2":"199,1","3":"17,832983","4":"0,46701731"},{"1":"8,1","2":"53,5","3":"10,046523","4":"-1,94652338"},{"1":"10,3","2":"140,3","3":"14,688451","4":"-4,38845105"},{"1":"10,8","2":"36,9","3":"9,158781","4":"1,64121855"},{"1":"6,6","2":"7,8","3":"7,602559","4":"-1,00255916"},{"1":"14,0","2":"94,2","3":"12,223095","4":"1,77690455"},{"1":"15,0","2":"142,9","3":"14,827495","4":"0,17250504"},{"1":"8,7","2":"16,9","3":"8,089213","4":"0,61078714"},{"1":"11,9","2":"117,2","3":"13,453099","4":"-1,55309933"},{"1":"8,4","2":"50,0","3":"9,859349","4":"-1,45934888"},{"1":"18,4","2":"210,7","3":"18,453332","4":"-0,05333247"},{"1":"16,0","2":"131,1","3":"14,196449","4":"1,80355050"},{"1":"17,8","2":"290,7","3":"22,731607","4":"-4,93160682"},{"1":"15,9","2":"125,7","3":"13,907666","4":"1,99233402"},{"1":"18,4","2":"232,1","3":"19,597771","4":"-1,19777086"},{"1":"11,3","2":"69,2","3":"10,886135","4":"0,41386528"},{"1":"4,8","2":"8,6","3":"7,645342","4":"-2,84534190"},{"1":"10,5","2":"70,6","3":"10,961005","4":"-0,46100452"},{"1":"20,7","2":"239,3","3":"19,982816","4":"0,71718445"},{"1":"12,5","2":"67,8","3":"10,811265","4":"1,68873508"},{"1":"15,3","2":"93,9","3":"12,207052","4":"3,09294808"},{"1":"10,9","2":"73,4","3":"11,110744","4":"-0,21074412"},{"1":"13,2","2":"136,2","3":"14,469189","4":"-1,26918949"},{"1":"7,2","2":"8,7","3":"7,650690","4":"-0,45068974"},{"1":"21,7","2":"213,5","3":"18,603072","4":"3,09692793"},{"1":"20,8","2":"273,7","3":"21,822474","4":"-1,02247352"},{"1":"11,9","2":"112,9","3":"13,223142","4":"-1,32314208"},{"1":"6,9","2":"27,5","3":"8,656084","4":"-1,75608422"},{"1":"20,9","2":"209,6","3":"18,394506","4":"2,50549380"},{"1":"16,7","2":"168,4","3":"16,191195","4":"0,50880509"},{"1":"19,8","2":"255,4","3":"20,843818","4":"-1,04381826"},{"1":"7,6","2":"38,2","3":"9,228303","4":"-1,62830341"},{"1":"16,4","2":"172,5","3":"16,410456","4":"-0,01045647"},{"1":"22,6","2":"216,4","3":"18,758160","4":"3,84184048"},{"1":"25,5","2":"283,6","3":"22,351910","4":"3,14809003"},{"1":"12,6","2":"66,1","3":"10,720352","4":"1,87964841"},{"1":"25,4","2":"243,2","3":"20,191381","4":"5,20861858"},{"1":"11,9","2":"75,5","3":"11,223049","4":"0,67695118"},{"1":"17,3","2":"191,1","3":"17,405155","4":"-0,10515526"},{"1":"18,0","2":"218,4","3":"18,865116","4":"-0,86511638"},{"1":"19,9","2":"188,4","3":"17,260763","4":"2,63923650"},{"1":"20,9","2":"286,0","3":"22,480258","4":"-1,58025820"},{"1":"18,0","2":"163,5","3":"15,929151","4":"2,07084939"},{"1":"13,3","2":"85,7","3":"11,768529","4":"1,53147120"},{"1":"9,4","2":"76,4","3":"11,271179","4":"-1,87117941"},{"1":"16,8","2":"276,7","3":"21,982909","4":"-5,18290881"},{"1":"16,1","2":"175,1","3":"16,549500","4":"-0,44950039"},{"1":"16,7","2":"170,2","3":"16,287456","4":"0,41254392"},{"1":"18,9","2":"248,8","3":"20,490861","4":"-1,59086063"},{"1":"20,7","2":"184,9","3":"17,073589","4":"3,62641101"},{"1":"22,4","2":"195,4","3":"17,635113","4":"4,76488750"},{"1":"19,7","2":"187,9","3":"17,234024","4":"2,46597572"},{"1":"14,7","2":"74,7","3":"11,180266","4":"3,51973392"},{"1":"17,6","2":"253,8","3":"20,758253","4":"-3,15825278"},{"1":"9,7","2":"59,6","3":"10,372742","4":"-0,67274180"},{"1":"12,9","2":"88,3","3":"11,907573","4":"0,99242728"},{"1":"26,2","2":"287,6","3":"22,565824","4":"3,63417631"},{"1":"5,6","2":"13,2","3":"7,891343","4":"-2,29134268"},{"1":"16,7","2":"197,6","3":"17,752765","4":"-1,05276505"},{"1":"14,2","2":"120,5","3":"13,629578","4":"0,57042186"},{"1":"11,0","2":"129,4","3":"14,105536","4":"-3,10553617"},{"1":"16,5","2":"222,4","3":"19,079030","4":"-2,57903009"},{"1":"17,0","2":"213,4","3":"18,597724","4":"-1,59772423"},{"1":"15,2","2":"123,1","3":"13,768622","4":"1,43137794"},{"1":"14,8","2":"177,0","3":"16,651109","4":"-1,85110940"},{"1":"16,1","2":"280,7","3":"22,196823","4":"-6,09682252"},{"1":"16,0","2":"110,7","3":"13,105490","4":"2,89451046"},{"1":"6,6","2":"19,4","3":"8,222909","4":"-1,62290894"},{"1":"7,3","2":"11,7","3":"7,811125","4":"-0,51112503"},{"1":"22,2","2":"250,9","3":"20,603165","4":"1,59683467"},{"1":"20,1","2":"220,5","3":"18,977421","4":"1,12257892"},{"1":"17,3","2":"149,7","3":"15,191148","4":"2,10885172"},{"1":"21,8","2":"241,7","3":"20,111164","4":"1,68883622"},{"1":"12,0","2":"17,2","3":"8,105256","4":"3,89474361"},{"1":"18,2","2":"240,1","3":"20,025598","4":"-1,82559829"},{"1":"8,8","2":"26,8","3":"8,618649","4":"0,18135068"},{"1":"13,6","2":"68,4","3":"10,843352","4":"2,75664802"},{"1":"15,5","2":"156,6","3":"15,560149","4":"-0,06014944"},{"1":"20,6","2":"187,8","3":"17,228676","4":"3,37132356"},{"1":"17,1","2":"175,7","3":"16,581587","4":"0,51841256"},{"1":"11,8","2":"57,5","3":"10,260437","4":"1,53956290"},{"1":"7,2","2":"25,0","3":"8,522388","4":"-1,32238814"},{"1":"20,7","2":"238,2","3":"19,923989","4":"0,77601072"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Calculando o desvio-padrão dos resíduos:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">modelo_augment</span><span class="op">)</span></span>
+<span><span class="va">dp_residuos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">modelo_augment</span><span class="op">$</span><span class="va">.resid</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">dp_residuos</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2,28897</code></pre>
+</div>
+</div>
+<p>Este valor pode ser obtido na coluna <code>sigma</code> do <em>data frame</em> retornado pela função <code>glance</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">modelo_glance</span> <span class="op">&lt;-</span> <span class="fu">glance</span><span class="op">(</span><span class="va">modelo</span><span class="op">)</span></span>
+<span><span class="va">modelo_glance</span><span class="op">$</span><span class="va">sigma</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2,28897</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Desvio-padrão dos resíduos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>No geral, então, em uma regressão da variável <span class="math inline">\(y\)</span> sobre a variável <span class="math inline">\(x\)</span> com <span class="math inline">\(n\)</span> observações, o desvio-padrão dos resíduos é</p>
+<p><span class="math display">\[
+\displaystyle
+s_{\text{residuos}} =
+\sqrt{
+\frac{\sum_i (y_i - \widehat{y}_i)^2}{n-2}
+}
+\]</span></p>
+<p>Pela <a href="#fig-spread">Figura&nbsp;<span>1.1</span></a> e pelos comentários acima, quanto <span class="hl">maior</span> o valor de <span class="math inline">\(s_{\text{residuos}}\)</span>, <span class="hl">maior</span> a nossa incerteza.</p>
+</div>
+</div>
+</section><section id="espalhamento-de-x" class="level4"><h4 class="anchored" data-anchor-id="espalhamento-de-x">Espalhamento de <span class="math inline">\(x\)</span>
+</h4>
+<p>Quanto maior o espalhamento dos valores de <span class="math inline">\(x\)</span>, maior nossa confiança na reta de regressão, pois ela estará baseada em uma diversidade maior de valores.</p>
+<p>Observe a <a href="#fig-spread-x">Figura&nbsp;<span>1.2</span></a>. O gráfico da direita tem um espalhamento maior dos valores de <span class="math inline">\(x\)</span>. Uma reta de regressão, ali, parece estar mais bem “ancorada”.</p>
+<div id="fig-spread-x" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><p><img src="images/spread-x.png" class="img-fluid figure-img" style="width:100.0%" alt="Dois gráficos de dispersão"></p>
+<figcaption class="figure-caption">Figura&nbsp;1.2: Espalhamento de <span class="math inline">\(x\)</span></figcaption></figure>
+</div>
+<p>O espalhamento de <span class="math inline">\(x\)</span> é medido pelo desvio-padrão, que é calculado da maneira usual.</p>
+<p><a href="#lm-vendas-tv">No exemplo das vendas</a>, <span class="math inline">\(s_x\)</span>, o desvio-padrão de <code>tv</code> é</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dp_x</span> <span class="op">&lt;-</span> <span class="va">modelo_augment</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">pull</span><span class="op">(</span><span class="va">tv</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dp_x</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 84,16717</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Desvio-padrão dos resíduos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Pela <a href="#fig-spread-x">Figura&nbsp;<span>1.2</span></a> e pelos comentários acima, quanto <span class="hl">maior</span> o valor de <span class="math inline">\(s_x\)</span>, <span class="hl">menor</span> a nossa incerteza.</p>
+</div>
+</div>
+</section><section id="quantidade-de-dados" class="level4"><h4 class="anchored" data-anchor-id="quantidade-de-dados">Quantidade de dados</h4>
+<p>Uma reta baseada em mais pontos é mais confiável. Observe a <a href="#fig-n">Figura&nbsp;<span>1.3</span></a>.</p>
+<div id="fig-n" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure"><p><img src="images/quantidade-dados.png" class="img-fluid figure-img" style="width:100.0%" alt="Dois gráficos de dispersão"></p>
+<figcaption class="figure-caption">Figura&nbsp;1.3: Quantidade de dados</figcaption></figure>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Quantidade de dados
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Pela <a href="#fig-n">Figura&nbsp;<span>1.3</span></a> e pelos comentários acima, quanto <span class="hl">maior</span> o valor de <span class="math inline">\(n\)</span>, <span class="hl">menor</span> a nossa incerteza.</p>
+</div>
+</div>
+</section><section id="juntando-tudo" class="level4"><h4 class="anchored" data-anchor-id="juntando-tudo">Juntando tudo</h4>
+<p>Vimos que</p>
+<ul>
+<li>Quanto maior o desvio-padrão dos resíduos (<span class="math inline">\(s_{\text{residuos}}\)</span>), <span class="hl">maior</span> a incerteza.</li>
+<li>Quanto maior o desvio-padrão da variável <span class="math inline">\(x\)</span> (<span class="math inline">\(s_x\)</span>), <span class="hl">menor</span> a incerteza.</li>
+<li>Quanto maior a quantidade de dados (<span class="math inline">\(n\)</span>), <span class="hl">menor</span> a incerteza.</li>
+</ul>
+<p>Concluímos que a incerteza sobre nossa estimativa para <span class="math inline">\(\beta_1\)</span> (a inclinação da reta) é proporcional aos valores acima da seguinte maneira:</p>
+<p><span class="math display">\[
+EP(\beta_1) \propto \frac{s_{\text{residuos}}}{n \cdot s_x}
+\]</span></p>
+<p>onde estamos escrevendo a incerteza como <span class="hl"><span class="math inline">\(EP(\beta_1)\)</span></span>, o <span class="hl">erro-padrão</span> de <span class="math inline">\(\beta_1\)</span>.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Erro-padrão de <span class="math inline">\(\beta_1\)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A fórmula exata para a incerteza sobre <span class="math inline">\(\beta_1\)</span> é</p>
+<p><span class="math display">\[
+EP(\beta_1) = \frac{s_{\text{residuos}}}{\sqrt{n - 1} \cdot s_x}
+\]</span></p>
+</div>
+</div>
+<p><a href="#lm-vendas-tv">No exemplo das vendas</a>, usando as variáveis que já calculamos antes, este erro-padrão é</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dp_residuos</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="va">dp_x</span><span class="op">)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0,002227943</code></pre>
+</div>
+</div>
+<p>Este valor aparece nos resultados de <code>lm</code> como <code>std.error</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">modelo_tidy</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["term"],"name":[1],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["std.error"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"(Intercept)","2":"7,18542741","3":"0,373754231","4":"19,22501","5":"4,485308e-42"},{"1":"tv","2":"0,05347843","3":"0,002227943","4":"24,00350","5":"6,858734e-53"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</section><section id="erro-padrão-do-intercepto" class="level4"><h4 class="anchored" data-anchor-id="erro-padrão-do-intercepto">Erro-padrão do intercepto</h4>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Erro-padrão de <span class="math inline">\(\beta_0\)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para o intercepto <span class="math inline">\(\beta_0\)</span>, o raciocínio é análogo.</p>
+<p>A fórmula exata para a incerteza sobre <span class="math inline">\(\beta_0\)</span> é</p>
+<p><span class="math display">\[
+EP(\beta_0) =
+\]</span></p>
+</div>
+</div>
+<p>??? ISLR p.&nbsp;76</p>
 
 
 <!-- -->
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-de15:_stats" class="csl-entry" role="listitem">
+De Veaux, R. D., P. F. Velleman, e D. E. Bock. 2016. <em>Stats: Data and Models</em>. 4.ª ed. Pearson Education. <a href="https://media.pearsoncmg.com/aw/aw_deveaux_stats_4_2016/websites/statdm4d_comp_web_launch.html">https://media.pearsoncmg.com/aw/aw_deveaux_stats_4_2016/websites/statdm4d_comp_web_launch.html</a>.
+</div>
 <div id="ref-james21:_introd_statis_learn" class="csl-entry" role="listitem">
 James, Gareth, Daniela Witten, Trevor Hastie, e Robert Tibshirani. 2021. <em>An Introduction to Statistical Learning: With Applications in R</em>. 2.ª ed. Springer Publishing Company, Incorporated. <a href="https://www.statlearning.com/">https://www.statlearning.com/</a>.
 </div>
@@ -642,82 +908,308 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Código fonte</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb9" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>{{&lt; include _math.qmd &gt;}}</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="in">```{r echo=FALSE, message=FALSE}</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">'_setup.R'</span>)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu"># Regressão linear simples</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exemplo: vendas e publicidade</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>Exemplo baseado no livro @james21:_introd_statis_learn, com dados obtidos de <span class="ot">&lt;https://www.kaggle.com/datasets/ashydv/advertising-dataset/data&gt;</span>.</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>Este conjunto de dados contém $4$ colunas:</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="in">`tv`</span>: verba (em milhares de dólares) gasta em publicidade na TV;</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="in">`radio`</span>: verba (em milhares de dólares) gasta em publicidade no rádio;</span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="in">`jornal`</span>: verba (em milhares de dólares) gasta em publicidade em jornais;</span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="in">`vendas`</span>: receita das vendas (em milhares de dólares).</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>Cada observação --- isto é, cada linha --- corresponde a um produto.</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="fu">### Leitura e limpeza</span></span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>publicidade <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>  <span class="st">'dados/advertising.csv'</span>,</span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_col_types =</span> <span class="cn">FALSE</span></span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">jornal =</span> newspaper,</span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">vendas =</span> sales</span>
-<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>publicidade</span>
-<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a><span class="fu">### Divisão em dados de treino e teste</span></span>
-<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(publicidade)</span>
-<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>treino <span class="ot">&lt;-</span> <span class="fu">training</span>(split)</span>
-<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>teste <span class="ot">&lt;-</span> <span class="fu">testing</span>(split)</span>
-<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>split</span>
-<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a><span class="fu">### Vendas por verba gasta em TV</span></span>
-<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Análise exploratória</span></span>
-<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a>Começamos visualizando os dados:</span>
-<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a>treino <span class="sc">%&gt;%</span> </span>
-<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(tv, vendas)) <span class="sc">+</span></span>
-<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>()</span>
-<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a>A correlação linear entre vendas e tv é</span>
-<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(treino<span class="sc">$</span>vendas, treino<span class="sc">$</span>tv)</span>
-<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-78"><a href="#cb9-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-79"><a href="#cb9-79" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Modelo linear</span></span>
-<span id="cb9-80"><a href="#cb9-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-83"><a href="#cb9-83" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb9-84"><a href="#cb9-84" aria-hidden="true" tabindex="-1"></a>modelo <span class="ot">&lt;-</span> <span class="fu">lm</span>(vendas <span class="sc">~</span> tv, <span class="at">data =</span> treino)</span>
-<span id="cb9-85"><a href="#cb9-85" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo)</span>
-<span id="cb9-86"><a href="#cb9-86" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<div class="sourceCode" id="cb22" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>{{&lt; include _math.qmd &gt;}}</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="in">```{r echo=FALSE, message=FALSE}</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">'_setup.R'</span>)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="fu"># Regressão linear simples</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exemplo: vendas e publicidade</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>Exemplo baseado no livro @james21:_introd_statis_learn, com dados obtidos de <span class="ot">&lt;https://www.kaggle.com/datasets/ashydv/advertising-dataset/data&gt;</span>.</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>Este conjunto de dados contém $4$ colunas:</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="in">`tv`</span>: verba (em milhares de dólares) gasta em publicidade na TV;</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="in">`radio`</span>: verba (em milhares de dólares) gasta em publicidade no rádio;</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="in">`jornal`</span>: verba (em milhares de dólares) gasta em publicidade em jornais;</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="in">`vendas`</span>: receita das vendas (em milhares de dólares).</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>Cada observação --- isto é, cada linha --- corresponde a um produto.</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a><span class="fu">### Leitura e limpeza</span></span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>publicidade <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>  <span class="st">'dados/advertising.csv'</span>,</span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_col_types =</span> <span class="cn">FALSE</span></span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">jornal =</span> newspaper,</span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">vendas =</span> sales</span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>publicidade</span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a><span class="fu">### Divisão em dados de treino e teste</span></span>
+<span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-48"><a href="#cb22-48" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-49"><a href="#cb22-49" aria-hidden="true" tabindex="-1"></a>split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(publicidade)</span>
+<span id="cb22-50"><a href="#cb22-50" aria-hidden="true" tabindex="-1"></a>treino <span class="ot">&lt;-</span> <span class="fu">training</span>(split)</span>
+<span id="cb22-51"><a href="#cb22-51" aria-hidden="true" tabindex="-1"></a>teste <span class="ot">&lt;-</span> <span class="fu">testing</span>(split)</span>
+<span id="cb22-52"><a href="#cb22-52" aria-hidden="true" tabindex="-1"></a>split</span>
+<span id="cb22-53"><a href="#cb22-53" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-54"><a href="#cb22-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-55"><a href="#cb22-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-56"><a href="#cb22-56" aria-hidden="true" tabindex="-1"></a><span class="fu">### Vendas por verba gasta em TV</span></span>
+<span id="cb22-57"><a href="#cb22-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-58"><a href="#cb22-58" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Análise exploratória</span></span>
+<span id="cb22-59"><a href="#cb22-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-60"><a href="#cb22-60" aria-hidden="true" tabindex="-1"></a>Começamos visualizando os dados:</span>
+<span id="cb22-61"><a href="#cb22-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-64"><a href="#cb22-64" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-65"><a href="#cb22-65" aria-hidden="true" tabindex="-1"></a>grafico <span class="ot">&lt;-</span> treino <span class="sc">%&gt;%</span> </span>
+<span id="cb22-66"><a href="#cb22-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(tv, vendas)) <span class="sc">+</span></span>
+<span id="cb22-67"><a href="#cb22-67" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>()</span>
+<span id="cb22-68"><a href="#cb22-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-69"><a href="#cb22-69" aria-hidden="true" tabindex="-1"></a>grafico</span>
+<span id="cb22-70"><a href="#cb22-70" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-71"><a href="#cb22-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-72"><a href="#cb22-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-73"><a href="#cb22-73" aria-hidden="true" tabindex="-1"></a>A correlação linear entre vendas e tv é</span>
+<span id="cb22-74"><a href="#cb22-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-77"><a href="#cb22-77" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-78"><a href="#cb22-78" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(treino<span class="sc">$</span>vendas, treino<span class="sc">$</span>tv)</span>
+<span id="cb22-79"><a href="#cb22-79" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-80"><a href="#cb22-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-81"><a href="#cb22-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-82"><a href="#cb22-82" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Modelo linear {#lm-vendas-tv}</span></span>
+<span id="cb22-83"><a href="#cb22-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-86"><a href="#cb22-86" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-87"><a href="#cb22-87" aria-hidden="true" tabindex="-1"></a>modelo <span class="ot">&lt;-</span> <span class="fu">lm</span>(vendas <span class="sc">~</span> tv, <span class="at">data =</span> treino)</span>
+<span id="cb22-88"><a href="#cb22-88" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo)</span>
+<span id="cb22-89"><a href="#cb22-89" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-90"><a href="#cb22-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-93"><a href="#cb22-93" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-94"><a href="#cb22-94" aria-hidden="true" tabindex="-1"></a>modelo_tidy <span class="ot">&lt;-</span> <span class="fu">tidy</span>(modelo)</span>
+<span id="cb22-95"><a href="#cb22-95" aria-hidden="true" tabindex="-1"></a>modelo_tidy</span>
+<span id="cb22-96"><a href="#cb22-96" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-97"><a href="#cb22-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-100"><a href="#cb22-100" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-101"><a href="#cb22-101" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> modelo_tidy<span class="sc">$</span>estimate[<span class="dv">1</span>]</span>
+<span id="cb22-102"><a href="#cb22-102" aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">&lt;-</span> modelo_tidy<span class="sc">$</span>estimate[<span class="dv">2</span>]</span>
+<span id="cb22-103"><a href="#cb22-103" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-104"><a href="#cb22-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-107"><a href="#cb22-107" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-108"><a href="#cb22-108" aria-hidden="true" tabindex="-1"></a>grafico <span class="sc">+</span></span>
+<span id="cb22-109"><a href="#cb22-109" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(</span>
+<span id="cb22-110"><a href="#cb22-110" aria-hidden="true" tabindex="-1"></a>    <span class="at">intercept =</span> b0,</span>
+<span id="cb22-111"><a href="#cb22-111" aria-hidden="true" tabindex="-1"></a>    <span class="at">slope =</span> b1,</span>
+<span id="cb22-112"><a href="#cb22-112" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">'blue'</span></span>
+<span id="cb22-113"><a href="#cb22-113" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb22-114"><a href="#cb22-114" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-115"><a href="#cb22-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-116"><a href="#cb22-116" aria-hidden="true" tabindex="-1"></a>A equação da reta é</span>
+<span id="cb22-117"><a href="#cb22-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-118"><a href="#cb22-118" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-119"><a href="#cb22-119" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb22-120"><a href="#cb22-120" aria-hidden="true" tabindex="-1"></a>  \widehat{\text{vendas}} </span>
+<span id="cb22-121"><a href="#cb22-121" aria-hidden="true" tabindex="-1"></a>  &amp;= \hat{\beta_0} + \hat{\beta_1} \cdot \text{tv} <span class="sc">\\</span></span>
+<span id="cb22-122"><a href="#cb22-122" aria-hidden="true" tabindex="-1"></a>  &amp;= <span class="in">`r b0`</span> + <span class="in">`r b1`</span> \cdot \text{tv}</span>
+<span id="cb22-123"><a href="#cb22-123" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb22-124"><a href="#cb22-124" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-125"><a href="#cb22-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-126"><a href="#cb22-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-127"><a href="#cb22-127" aria-hidden="true" tabindex="-1"></a><span class="fu">## Teoria</span></span>
+<span id="cb22-128"><a href="#cb22-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-129"><a href="#cb22-129" aria-hidden="true" tabindex="-1"></a><span class="fu">### Estimativas $\hat{\beta_0}$ e $\hat{\beta_1}$</span></span>
+<span id="cb22-130"><a href="#cb22-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-131"><a href="#cb22-131" aria-hidden="true" tabindex="-1"></a>Os valores achados são estimativas para $\beta_0$ e $\beta_1$, baseadas nos dados do conjunto de treino.</span>
+<span id="cb22-132"><a href="#cb22-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-133"><a href="#cb22-133" aria-hidden="true" tabindex="-1"></a>Por isso, os valores de <span class="in">`vendas`</span> obtidos com esta equação também são estimativas.</span>
+<span id="cb22-134"><a href="#cb22-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-135"><a href="#cb22-135" aria-hidden="true" tabindex="-1"></a>Vamos escrever estimativas com o acento circunflexo (chapéu) sobre os símbolos.</span>
+<span id="cb22-136"><a href="#cb22-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-137"><a href="#cb22-137" aria-hidden="true" tabindex="-1"></a>De onde vêm os valores de $\hat{\beta_0}$ e $\hat{\beta_1}$?</span>
+<span id="cb22-138"><a href="#cb22-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-139"><a href="#cb22-139" aria-hidden="true" tabindex="-1"></a>Resposta: são os valores que fazem com que a soma dos quadrados das distâncias verticais dos pontos à reta seja a menor possível. </span>
+<span id="cb22-140"><a href="#cb22-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-141"><a href="#cb22-141" aria-hidden="true" tabindex="-1"></a>(Estas distâncias são chamadas de <span class="co">[</span><span class="ot">resíduos</span><span class="co">]</span>{.hl}.)</span>
+<span id="cb22-142"><a href="#cb22-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-143"><a href="#cb22-143" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Consulte este material</span><span class="co">](https://fnaufel.github.io/probestr/regr.html#como-achar-a-equa%C3%A7%C3%A3o-da-melhor-reta-com-c%C3%A1lculo)</span> para ver os detalhes sobre o cálculo de $\hat{\beta_0}$ e $\hat{\beta_1}$.</span>
+<span id="cb22-144"><a href="#cb22-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-145"><a href="#cb22-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-146"><a href="#cb22-146" aria-hidden="true" tabindex="-1"></a><span class="fu">### Erros-padrão das estimativas</span></span>
+<span id="cb22-147"><a href="#cb22-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-148"><a href="#cb22-148" aria-hidden="true" tabindex="-1"></a>Vamos pensar nas incertezas associadas aos valores de $\hat{\beta_0}$ e $\hat{\beta_1}$, com base na excelente discussão em <span class="co">[</span><span class="ot">@de15:_stats, cap. 25</span><span class="co">]</span>.</span>
+<span id="cb22-149"><a href="#cb22-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-150"><a href="#cb22-150" aria-hidden="true" tabindex="-1"></a>Quais são os fatores que afetam a nossa confiança na reta de regressão?</span>
+<span id="cb22-151"><a href="#cb22-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-152"><a href="#cb22-152" aria-hidden="true" tabindex="-1"></a>Mais especificamente, <span class="co">[</span><span class="ot">quais os fatores que afetam nossa confiança no valor estimado $\hat\beta_1$</span><span class="co">]</span>{.hl} (a inclinação da reta)?</span>
+<span id="cb22-153"><a href="#cb22-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-154"><a href="#cb22-154" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Espalhamento dos pontos em volta da reta</span></span>
+<span id="cb22-155"><a href="#cb22-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-156"><a href="#cb22-156" aria-hidden="true" tabindex="-1"></a>Quanto mais afastados da reta estiverem os dados, menor a nossa confiança de que a reta captura a variação de uma variável em função da outra.</span>
+<span id="cb22-157"><a href="#cb22-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-158"><a href="#cb22-158" aria-hidden="true" tabindex="-1"></a>Observe a @fig-spread. O gráfico da esquerda nos dá mais certeza de que uma reta de regressão terá uma inclinação bem próxima da taxa de variação de $y$ em função de $x$ na população.</span>
+<span id="cb22-159"><a href="#cb22-159" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb22-160"><a href="#cb22-160" aria-hidden="true" tabindex="-1"></a><span class="al">![Espalhamento dos pontos](images/spread.png)</span>{fig-alt="Dois gráficos de dispersão" #fig-spread width=100% fig-align="center"}</span>
+<span id="cb22-161"><a href="#cb22-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-162"><a href="#cb22-162" aria-hidden="true" tabindex="-1"></a>Este espalhamento é medido pelo <span class="co">[</span><span class="ot">desvio-padrão dos resíduos</span><span class="co">]</span>{.hl}.</span>
+<span id="cb22-163"><a href="#cb22-163" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb22-164"><a href="#cb22-164" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">No exemplo das vendas</span><span class="co">](#lm-vendas-tv)</span>, este desvio-padrão dos resíduos é calculado como</span>
+<span id="cb22-165"><a href="#cb22-165" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb22-166"><a href="#cb22-166" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-167"><a href="#cb22-167" aria-hidden="true" tabindex="-1"></a>\displaystyle</span>
+<span id="cb22-168"><a href="#cb22-168" aria-hidden="true" tabindex="-1"></a>\sqrt{</span>
+<span id="cb22-169"><a href="#cb22-169" aria-hidden="true" tabindex="-1"></a>\frac{\sum_i (\text{vendas}_i - \widehat{\text{vendas}}_i)^2}{n-2}</span>
+<span id="cb22-170"><a href="#cb22-170" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-171"><a href="#cb22-171" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-172"><a href="#cb22-172" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb22-173"><a href="#cb22-173" aria-hidden="true" tabindex="-1"></a>No numerador, o valor $\text{vendas}_i - \widehat{\text{vendas}}_i$ é o resíduo da observação $i$.</span>
+<span id="cb22-174"><a href="#cb22-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-175"><a href="#cb22-175" aria-hidden="true" tabindex="-1"></a>As <span class="in">`vendas`</span> estimadas para cada valor de <span class="in">`tv`</span> e os valores dos resíduos podem ser acessados assim:</span>
+<span id="cb22-176"><a href="#cb22-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-179"><a href="#cb22-179" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-180"><a href="#cb22-180" aria-hidden="true" tabindex="-1"></a>modelo_augment <span class="ot">&lt;-</span> <span class="fu">augment</span>(modelo)</span>
+<span id="cb22-181"><a href="#cb22-181" aria-hidden="true" tabindex="-1"></a>modelo_augment <span class="sc">%&gt;%</span> </span>
+<span id="cb22-182"><a href="#cb22-182" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(vendas, tv, .fitted, .resid)</span>
+<span id="cb22-183"><a href="#cb22-183" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-184"><a href="#cb22-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-185"><a href="#cb22-185" aria-hidden="true" tabindex="-1"></a>Calculando o desvio-padrão dos resíduos:</span>
+<span id="cb22-186"><a href="#cb22-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-189"><a href="#cb22-189" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-190"><a href="#cb22-190" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(modelo_augment)</span>
+<span id="cb22-191"><a href="#cb22-191" aria-hidden="true" tabindex="-1"></a>dp_residuos <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(modelo_augment<span class="sc">$</span>.resid<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (n <span class="sc">-</span> <span class="dv">2</span>))</span>
+<span id="cb22-192"><a href="#cb22-192" aria-hidden="true" tabindex="-1"></a>dp_residuos</span>
+<span id="cb22-193"><a href="#cb22-193" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-194"><a href="#cb22-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-195"><a href="#cb22-195" aria-hidden="true" tabindex="-1"></a>Este valor pode ser obtido na coluna <span class="in">`sigma`</span> do *data frame* retornado pela função <span class="in">`glance`</span>:</span>
+<span id="cb22-196"><a href="#cb22-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-199"><a href="#cb22-199" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-200"><a href="#cb22-200" aria-hidden="true" tabindex="-1"></a>modelo_glance <span class="ot">&lt;-</span> <span class="fu">glance</span>(modelo)</span>
+<span id="cb22-201"><a href="#cb22-201" aria-hidden="true" tabindex="-1"></a>modelo_glance<span class="sc">$</span>sigma</span>
+<span id="cb22-202"><a href="#cb22-202" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-203"><a href="#cb22-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-204"><a href="#cb22-204" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb22-205"><a href="#cb22-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-206"><a href="#cb22-206" aria-hidden="true" tabindex="-1"></a><span class="fu">## Desvio-padrão dos resíduos</span></span>
+<span id="cb22-207"><a href="#cb22-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-208"><a href="#cb22-208" aria-hidden="true" tabindex="-1"></a>No geral, então, em uma regressão da variável $y$ sobre a variável $x$ com $n$ observações, o desvio-padrão dos resíduos é</span>
+<span id="cb22-209"><a href="#cb22-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-210"><a href="#cb22-210" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-211"><a href="#cb22-211" aria-hidden="true" tabindex="-1"></a>\displaystyle</span>
+<span id="cb22-212"><a href="#cb22-212" aria-hidden="true" tabindex="-1"></a>s_{\text{residuos}} = </span>
+<span id="cb22-213"><a href="#cb22-213" aria-hidden="true" tabindex="-1"></a>\sqrt{</span>
+<span id="cb22-214"><a href="#cb22-214" aria-hidden="true" tabindex="-1"></a>\frac{\sum_i (y_i - \widehat{y}_i)^2}{n-2}</span>
+<span id="cb22-215"><a href="#cb22-215" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-216"><a href="#cb22-216" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-217"><a href="#cb22-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-218"><a href="#cb22-218" aria-hidden="true" tabindex="-1"></a>Pela @fig-spread e pelos comentários acima, quanto <span class="co">[</span><span class="ot">maior</span><span class="co">]</span>{.hl} o valor de $s_{\text{residuos}}$, <span class="co">[</span><span class="ot">maior</span><span class="co">]</span>{.hl} a nossa incerteza.</span>
+<span id="cb22-219"><a href="#cb22-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-220"><a href="#cb22-220" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb22-221"><a href="#cb22-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-222"><a href="#cb22-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-223"><a href="#cb22-223" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Espalhamento de $x$</span></span>
+<span id="cb22-224"><a href="#cb22-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-225"><a href="#cb22-225" aria-hidden="true" tabindex="-1"></a>Quanto maior o espalhamento dos valores de $x$, maior nossa confiança na reta de regressão, pois ela estará baseada em uma diversidade maior de valores.</span>
+<span id="cb22-226"><a href="#cb22-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-227"><a href="#cb22-227" aria-hidden="true" tabindex="-1"></a>Observe a @fig-spread-x. O gráfico da direita tem um espalhamento maior dos valores de $x$. Uma reta de regressão, ali, parece estar mais bem "ancorada".</span>
+<span id="cb22-228"><a href="#cb22-228" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb22-229"><a href="#cb22-229" aria-hidden="true" tabindex="-1"></a><span class="al">![Espalhamento de $x$](images/spread-x.png)</span>{fig-alt="Dois gráficos de dispersão" #fig-spread-x width=100% fig-align="center"}</span>
+<span id="cb22-230"><a href="#cb22-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-231"><a href="#cb22-231" aria-hidden="true" tabindex="-1"></a>O espalhamento de $x$ é medido pelo desvio-padrão, que é calculado da maneira usual. </span>
+<span id="cb22-232"><a href="#cb22-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-233"><a href="#cb22-233" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">No exemplo das vendas</span><span class="co">](#lm-vendas-tv)</span>, $s_x$, o desvio-padrão de <span class="in">`tv`</span> é</span>
+<span id="cb22-234"><a href="#cb22-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-237"><a href="#cb22-237" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-238"><a href="#cb22-238" aria-hidden="true" tabindex="-1"></a>dp_x <span class="ot">&lt;-</span> modelo_augment <span class="sc">%&gt;%</span> </span>
+<span id="cb22-239"><a href="#cb22-239" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(tv) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-240"><a href="#cb22-240" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sd</span>()</span>
+<span id="cb22-241"><a href="#cb22-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-242"><a href="#cb22-242" aria-hidden="true" tabindex="-1"></a>dp_x</span>
+<span id="cb22-243"><a href="#cb22-243" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-244"><a href="#cb22-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-245"><a href="#cb22-245" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb22-246"><a href="#cb22-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-247"><a href="#cb22-247" aria-hidden="true" tabindex="-1"></a><span class="fu">## Desvio-padrão dos resíduos</span></span>
+<span id="cb22-248"><a href="#cb22-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-249"><a href="#cb22-249" aria-hidden="true" tabindex="-1"></a>Pela @fig-spread-x e pelos comentários acima, quanto <span class="co">[</span><span class="ot">maior</span><span class="co">]</span>{.hl} o valor de $s_x$, <span class="co">[</span><span class="ot">menor</span><span class="co">]</span>{.hl} a nossa incerteza.</span>
+<span id="cb22-250"><a href="#cb22-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-251"><a href="#cb22-251" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb22-252"><a href="#cb22-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-253"><a href="#cb22-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-254"><a href="#cb22-254" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Quantidade de dados</span></span>
+<span id="cb22-255"><a href="#cb22-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-256"><a href="#cb22-256" aria-hidden="true" tabindex="-1"></a>Uma reta baseada em mais pontos é mais confiável. Observe a @fig-n. </span>
+<span id="cb22-257"><a href="#cb22-257" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb22-258"><a href="#cb22-258" aria-hidden="true" tabindex="-1"></a><span class="al">![Quantidade de dados](images/quantidade-dados.png)</span>{fig-alt="Dois gráficos de dispersão" #fig-n width=100% fig-align="center"}</span>
+<span id="cb22-259"><a href="#cb22-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-260"><a href="#cb22-260" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb22-261"><a href="#cb22-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-262"><a href="#cb22-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-263"><a href="#cb22-263" aria-hidden="true" tabindex="-1"></a><span class="fu">## Quantidade de dados</span></span>
+<span id="cb22-264"><a href="#cb22-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-265"><a href="#cb22-265" aria-hidden="true" tabindex="-1"></a>Pela @fig-n e pelos comentários acima, quanto <span class="co">[</span><span class="ot">maior</span><span class="co">]</span>{.hl} o valor de $n$, <span class="co">[</span><span class="ot">menor</span><span class="co">]</span>{.hl} a nossa incerteza.</span>
+<span id="cb22-266"><a href="#cb22-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-267"><a href="#cb22-267" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb22-268"><a href="#cb22-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-269"><a href="#cb22-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-270"><a href="#cb22-270" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Juntando tudo</span></span>
+<span id="cb22-271"><a href="#cb22-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-272"><a href="#cb22-272" aria-hidden="true" tabindex="-1"></a>Vimos que</span>
+<span id="cb22-273"><a href="#cb22-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-274"><a href="#cb22-274" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Quanto maior o desvio-padrão dos resíduos ($s_{\text{residuos}}$), <span class="co">[</span><span class="ot">maior</span><span class="co">]</span>{.hl} a incerteza.</span>
+<span id="cb22-275"><a href="#cb22-275" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Quanto maior o desvio-padrão da variável $x$ ($s_x$), <span class="co">[</span><span class="ot">menor</span><span class="co">]</span>{.hl} a incerteza.</span>
+<span id="cb22-276"><a href="#cb22-276" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Quanto maior a quantidade de dados ($n$), <span class="co">[</span><span class="ot">menor</span><span class="co">]</span>{.hl} a incerteza.</span>
+<span id="cb22-277"><a href="#cb22-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-278"><a href="#cb22-278" aria-hidden="true" tabindex="-1"></a>Concluímos que a incerteza sobre nossa estimativa para $\beta_1$ (a inclinação da reta) é proporcional aos valores acima da seguinte maneira:</span>
+<span id="cb22-279"><a href="#cb22-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-280"><a href="#cb22-280" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-281"><a href="#cb22-281" aria-hidden="true" tabindex="-1"></a>EP(\beta_1) \propto \frac{s_{\text{residuos}}}{n \cdot s_x}</span>
+<span id="cb22-282"><a href="#cb22-282" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-283"><a href="#cb22-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-284"><a href="#cb22-284" aria-hidden="true" tabindex="-1"></a>onde estamos escrevendo a incerteza como <span class="co">[</span><span class="ot">$EP(\beta_1)$</span><span class="co">]</span>{.hl}, o <span class="co">[</span><span class="ot">erro-padrão</span><span class="co">]</span>{.hl} de $\beta_1$.</span>
+<span id="cb22-285"><a href="#cb22-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-286"><a href="#cb22-286" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb22-287"><a href="#cb22-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-288"><a href="#cb22-288" aria-hidden="true" tabindex="-1"></a><span class="fu">## Erro-padrão de $\beta_1$</span></span>
+<span id="cb22-289"><a href="#cb22-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-290"><a href="#cb22-290" aria-hidden="true" tabindex="-1"></a>A fórmula exata para a incerteza sobre $\beta_1$ é</span>
+<span id="cb22-291"><a href="#cb22-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-292"><a href="#cb22-292" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-293"><a href="#cb22-293" aria-hidden="true" tabindex="-1"></a>EP(\beta_1) = \frac{s_{\text{residuos}}}{\sqrt{n - 1} \cdot s_x}</span>
+<span id="cb22-294"><a href="#cb22-294" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-295"><a href="#cb22-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-296"><a href="#cb22-296" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb22-297"><a href="#cb22-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-298"><a href="#cb22-298" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">No exemplo das vendas</span><span class="co">](#lm-vendas-tv)</span>, usando as variáveis que já calculamos antes, este erro-padrão é</span>
+<span id="cb22-299"><a href="#cb22-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-302"><a href="#cb22-302" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-303"><a href="#cb22-303" aria-hidden="true" tabindex="-1"></a>dp_residuos <span class="sc">/</span> (<span class="fu">sqrt</span>(n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> dp_x)</span>
+<span id="cb22-304"><a href="#cb22-304" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-305"><a href="#cb22-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-306"><a href="#cb22-306" aria-hidden="true" tabindex="-1"></a>Este valor aparece nos resultados de <span class="in">`lm`</span> como <span class="in">`std.error`</span>:</span>
+<span id="cb22-307"><a href="#cb22-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-310"><a href="#cb22-310" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-311"><a href="#cb22-311" aria-hidden="true" tabindex="-1"></a>modelo_tidy</span>
+<span id="cb22-312"><a href="#cb22-312" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-313"><a href="#cb22-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-314"><a href="#cb22-314" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Erro-padrão do intercepto</span></span>
+<span id="cb22-315"><a href="#cb22-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-316"><a href="#cb22-316" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb22-317"><a href="#cb22-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-318"><a href="#cb22-318" aria-hidden="true" tabindex="-1"></a><span class="fu">## Erro-padrão de $\beta_0$</span></span>
+<span id="cb22-319"><a href="#cb22-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-320"><a href="#cb22-320" aria-hidden="true" tabindex="-1"></a>Para o intercepto $\beta_0$, o raciocínio é análogo.</span>
+<span id="cb22-321"><a href="#cb22-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-322"><a href="#cb22-322" aria-hidden="true" tabindex="-1"></a>A fórmula exata para a incerteza sobre $\beta_0$ é</span>
+<span id="cb22-323"><a href="#cb22-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-324"><a href="#cb22-324" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-325"><a href="#cb22-325" aria-hidden="true" tabindex="-1"></a>EP(\beta_0) = </span>
+<span id="cb22-326"><a href="#cb22-326" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-327"><a href="#cb22-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-328"><a href="#cb22-328" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb22-329"><a href="#cb22-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-330"><a href="#cb22-330" aria-hidden="true" tabindex="-1"></a>??? ISLR p. 76</span>
 </code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

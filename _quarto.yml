@@ -30,7 +30,7 @@ comments:
 
 format:
   html:
-    toc-depth: 3
+    toc-depth: 4
     number-depth: 2
     theme: 
       - journal

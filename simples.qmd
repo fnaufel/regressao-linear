@@ -3,6 +3,7 @@
 
 ```{r echo=FALSE, message=FALSE}
 source('_setup.R')
+set.seed(1234)
 ```
 
 
@@ -56,9 +57,11 @@ split
 Começamos visualizando os dados:
 
 ```{r}
-treino %>% 
+grafico <- treino %>% 
   ggplot(aes(tv, vendas)) +
     geom_point()
+
+grafico
 ```
 
 
@@ -69,10 +72,232 @@ cor(treino$vendas, treino$tv)
 ```
 
 
-#### Modelo linear
+#### Modelo linear {#lm-vendas-tv}
 
 ```{r}
 modelo <- lm(vendas ~ tv, data = treino)
 summary(modelo)
 ```
 
+```{r}
+modelo_tidy <- tidy(modelo)
+modelo_tidy
+```
+
+```{r}
+b0 <- modelo_tidy$estimate[1]
+b1 <- modelo_tidy$estimate[2]
+```
+
+```{r}
+grafico +
+  geom_abline(
+    intercept = b0,
+    slope = b1,
+    color = 'blue'
+  )
+```
+
+A equação da reta é
+
+$$
+\begin{aligned}
+  \widehat{\text{vendas}} 
+  &= \hat{\beta_0} + \hat{\beta_1} \cdot \text{tv} \\
+  &= `r b0` + `r b1` \cdot \text{tv}
+\end{aligned}
+$$
+
+
+## Teoria
+
+### Estimativas $\hat{\beta_0}$ e $\hat{\beta_1}$
+
+Os valores achados são estimativas para $\beta_0$ e $\beta_1$, baseadas nos dados do conjunto de treino.
+
+Por isso, os valores de `vendas` obtidos com esta equação também são estimativas.
+
+Vamos escrever estimativas com o acento circunflexo (chapéu) sobre os símbolos.
+
+De onde vêm os valores de $\hat{\beta_0}$ e $\hat{\beta_1}$?
+
+Resposta: são os valores que fazem com que a soma dos quadrados das distâncias verticais dos pontos à reta seja a menor possível. 
+
+(Estas distâncias são chamadas de [resíduos]{.hl}.)
+
+[Consulte este material](https://fnaufel.github.io/probestr/regr.html#como-achar-a-equa%C3%A7%C3%A3o-da-melhor-reta-com-c%C3%A1lculo) para ver os detalhes sobre o cálculo de $\hat{\beta_0}$ e $\hat{\beta_1}$.
+
+
+### Erros-padrão das estimativas
+
+Vamos pensar nas incertezas associadas aos valores de $\hat{\beta_0}$ e $\hat{\beta_1}$, com base na excelente discussão em [@de15:_stats, cap. 25].
+
+Quais são os fatores que afetam a nossa confiança na reta de regressão?
+
+Mais especificamente, [quais os fatores que afetam nossa confiança no valor estimado $\hat\beta_1$]{.hl} (a inclinação da reta)?
+
+#### Espalhamento dos pontos em volta da reta
+
+Quanto mais afastados da reta estiverem os dados, menor a nossa confiança de que a reta captura a variação de uma variável em função da outra.
+
+Observe a @fig-spread. O gráfico da esquerda nos dá mais certeza de que uma reta de regressão terá uma inclinação bem próxima da taxa de variação de $y$ em função de $x$ na população.
+  
+![Espalhamento dos pontos](images/spread.png){fig-alt="Dois gráficos de dispersão" #fig-spread width=100% fig-align="center"}
+
+Este espalhamento é medido pelo [desvio-padrão dos resíduos]{.hl}.
+  
+[No exemplo das vendas](#lm-vendas-tv), este desvio-padrão dos resíduos é calculado como
+  
+$$
+\displaystyle
+\sqrt{
+\frac{\sum_i (\text{vendas}_i - \widehat{\text{vendas}}_i)^2}{n-2}
+}
+$$
+  
+No numerador, o valor $\text{vendas}_i - \widehat{\text{vendas}}_i$ é o resíduo da observação $i$.
+
+As `vendas` estimadas para cada valor de `tv` e os valores dos resíduos podem ser acessados assim:
+
+```{r}
+modelo_augment <- augment(modelo)
+modelo_augment %>% 
+  select(vendas, tv, .fitted, .resid)
+```
+
+Calculando o desvio-padrão dos resíduos:
+
+```{r}
+n <- nrow(modelo_augment)
+dp_residuos <- sqrt(sum(modelo_augment$.resid^2) / (n - 2))
+dp_residuos
+```
+
+Este valor pode ser obtido na coluna `sigma` do *data frame* retornado pela função `glance`:
+
+```{r}
+modelo_glance <- glance(modelo)
+modelo_glance$sigma
+```
+
+::: {.callout-important}
+
+## Desvio-padrão dos resíduos
+
+No geral, então, em uma regressão da variável $y$ sobre a variável $x$ com $n$ observações, o desvio-padrão dos resíduos é
+
+$$
+\displaystyle
+s_{\text{residuos}} = 
+\sqrt{
+\frac{\sum_i (y_i - \widehat{y}_i)^2}{n-2}
+}
+$$
+
+Pela @fig-spread e pelos comentários acima, quanto [maior]{.hl} o valor de $s_{\text{residuos}}$, [maior]{.hl} a nossa incerteza.
+
+:::
+
+
+#### Espalhamento de $x$
+
+Quanto maior o espalhamento dos valores de $x$, maior nossa confiança na reta de regressão, pois ela estará baseada em uma diversidade maior de valores.
+
+Observe a @fig-spread-x. O gráfico da direita tem um espalhamento maior dos valores de $x$. Uma reta de regressão, ali, parece estar mais bem "ancorada".
+  
+![Espalhamento de $x$](images/spread-x.png){fig-alt="Dois gráficos de dispersão" #fig-spread-x width=100% fig-align="center"}
+
+O espalhamento de $x$ é medido pelo desvio-padrão, que é calculado da maneira usual. 
+
+[No exemplo das vendas](#lm-vendas-tv), $s_x$, o desvio-padrão de `tv` é
+
+```{r}
+dp_x <- modelo_augment %>% 
+  pull(tv) %>% 
+  sd()
+
+dp_x
+```
+
+::: {.callout-important}
+
+## Desvio-padrão dos resíduos
+
+Pela @fig-spread-x e pelos comentários acima, quanto [maior]{.hl} o valor de $s_x$, [menor]{.hl} a nossa incerteza.
+
+:::
+
+
+#### Quantidade de dados
+
+Uma reta baseada em mais pontos é mais confiável. Observe a @fig-n. 
+  
+![Quantidade de dados](images/quantidade-dados.png){fig-alt="Dois gráficos de dispersão" #fig-n width=100% fig-align="center"}
+
+::: {.callout-important}
+
+
+## Quantidade de dados
+
+Pela @fig-n e pelos comentários acima, quanto [maior]{.hl} o valor de $n$, [menor]{.hl} a nossa incerteza.
+
+:::
+
+
+#### Juntando tudo
+
+Vimos que
+
+* Quanto maior o desvio-padrão dos resíduos ($s_{\text{residuos}}$), [maior]{.hl} a incerteza.
+* Quanto maior o desvio-padrão da variável $x$ ($s_x$), [menor]{.hl} a incerteza.
+* Quanto maior a quantidade de dados ($n$), [menor]{.hl} a incerteza.
+
+Concluímos que a incerteza sobre nossa estimativa para $\beta_1$ (a inclinação da reta) é proporcional aos valores acima da seguinte maneira:
+
+$$
+EP(\beta_1) \propto \frac{s_{\text{residuos}}}{n \cdot s_x}
+$$
+
+onde estamos escrevendo a incerteza como [$EP(\beta_1)$]{.hl}, o [erro-padrão]{.hl} de $\beta_1$.
+
+::: {.callout-important}
+
+## Erro-padrão de $\beta_1$
+
+A fórmula exata para a incerteza sobre $\beta_1$ é
+
+$$
+EP(\beta_1) = \frac{s_{\text{residuos}}}{\sqrt{n - 1} \cdot s_x}
+$$
+
+:::
+
+[No exemplo das vendas](#lm-vendas-tv), usando as variáveis que já calculamos antes, este erro-padrão é
+
+```{r}
+dp_residuos / (sqrt(n - 1) * dp_x)
+```
+
+Este valor aparece nos resultados de `lm` como `std.error`:
+
+```{r}
+modelo_tidy
+```
+
+#### Erro-padrão do intercepto
+
+::: {.callout-important}
+
+## Erro-padrão de $\beta_0$
+
+Para o intercepto $\beta_0$, o raciocínio é análogo.
+
+A fórmula exata para a incerteza sobre $\beta_0$ é
+
+$$
+EP(\beta_0) = 
+$$
+
+:::
+
+??? ISLR p. 76
