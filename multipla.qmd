@@ -1,0 +1,149 @@
+
+{{< include _math.qmd >}}
+
+```{r echo=FALSE, message=FALSE}
+source('_setup.R')
+set.seed(1234)
+library(patchwork)
+#library(gglm)
+```
+
+
+# Regressão linear múltipla
+
+## Simulação
+
+### Multicolinearidade
+
+Vamos criar três preditores `x1`, `x2` e `x3`, com os dois primeiros correlacionados:
+
+```{r}
+n <- 100
+a <- 2
+x1 <- runif(n)
+x2 <- a * x1 + rnorm(n, 0, .1)
+x3 <- runif(n)
+
+df <- tibble(x1, x2, x3)
+```
+
+Gráficos:
+
+```{r}
+plot_cor <- function(df, v1, v2) {
+  
+  x = df[[v1]]
+  y = df[[v2]]
+  valor_cor <- cor(x, y) %>% round(4)
+  
+  df %>% ggplot(aes(x, y)) +
+    geom_point(alpha = 0.5) +
+    labs(
+      title = paste0('cor(', v1, ', ', v2, ') = ', valor_cor),
+      x = v1,
+      y = v2
+    )
+  
+}
+```
+
+```{r}
+#| fig-height: 18
+
+v <- c('x1', 'x2', 'x3')
+
+pares <- expand_grid(x = v, y = v) %>% 
+  filter(x < y) %>% 
+  arrange(x, y)
+
+v1 <- pares %>% pull(x)
+v2 <- pares %>% pull(y)
+
+plots <- map2(
+  v1, v2, ~ plot_cor(df, .x, .y)
+)
+
+plots %>% 
+  wrap_plots(
+    ncol = 1,
+    byrow = TRUE
+  )
+```
+
+A variável de resposta é `y`:
+
+```{r}
+b0 <- 1
+b1 <- 2
+b2 <- 3
+b3 <- 4
+var_epsilon <- .5
+
+y <- b0 + b1 * x1 + b2 * x2 + b3 * x3 + rnorm(n, sd = sqrt(var_epsilon))
+df_y <- df %>% 
+  mutate(y = y)
+```
+
+Usando todas as variáveis, temos:
+
+```{r}
+modelo_123 <- lm(y ~ ., data = df_y)
+```
+
+A equação verdadeira é
+
+$$
+y = `r b0` + `r b1` x_1 + `r b2` x_2 + `r b3` x_3 + \varepsilon
+$$
+
+O modelo deu os coeficientes
+
+```{r}
+modelo_123 %>% summary()
+modelo_123
+```
+
+Agora, usando apenas `x1` e `x3`:
+
+```{r}
+modelo_13 <- lm(y ~ x1 + x3, data = df_y)
+```
+
+A equação verdadeira é --- substituindo $x_2$ por $(b_1 + ab_2)x_1$ ---
+
+$$
+y = `r b0` + `r b1 + a * b2` x_1 + `r b3` x_3 + \varepsilon
+$$
+
+O modelo deu os coeficientes
+
+```{r}
+modelo_13 %>% summary()
+modelo_13
+```
+
+Em termos do $R^2$ ajustado:
+
+* O modelo com os três preditores teve $R^2_{\text{adj}} = `r modelo_123 %>% glance() %>% pull(adj.r.squared) %>% fm(4)`$.
+* O modelo com dois preditores teve $R^2_{\text{adj}} = `r modelo_13 %>% glance() %>% pull(adj.r.squared) %>% fm(4)`$.
+
+Para a equação verdadeira:
+
+```{r}
+y_eq <- b0 + b1 * x1 + b2 * x2 + b3 * x3
+rsq_vec(y, y_eq)
+```
+
+Anova diz que o segundo modelo é mais significativo que o primeiro:
+
+```{r}
+anova(modelo_123, modelo_13)
+```
+
+```{r}
+modelo_123 %>% glance()
+```
+
+```{r}
+modelo_13 %>% glance()
+```
