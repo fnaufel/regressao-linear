@@ -11,7 +11,7 @@ book:
   repo-url: https://github.com/fnaufel/regressao-linear
   repo-branch: master
   repo-actions: [edit]
-  # downloads: [pdf]
+  downloads: [pdf]
   date-format: "DD/MM/YYYY HH:mm"
   sharing: 
     - twitter
@@ -20,6 +20,7 @@ book:
   chapters:
     - index.qmd
     - simples.qmd
+    - multipla.qmd
     - references.qmd
 
 bibliography: bibliography.bib
@@ -27,6 +28,13 @@ csl: universidade-do-porto-faculdade-de-engenharia-chicago-pt-crono.csl
 
 comments:
   hypothesis: true
+
+execute: 
+  echo: true
+  eval: true
+  warning: true
+  error: true
+  include: true
 
 format:
   html:
@@ -42,17 +50,18 @@ format:
     link-external-icon: true
     link-external-newwindow: true
     link-external-filter: ^(?:http:|https:)\/\/fnaufel\.github\.io\/regressao-linear
-  # pdf:
-  #   documentclass: scrreprt
-  #   toc-depth: 3
-  #   number-depth: 3
-  #   fig-pos: htb
-  #   keep-tex: true
-  #   # filters: 
-  #   #   - filters/dollar.py3
-  #   #   - filters/hl.py3
-  #   include-in-header: 
-  #     - _preamble.tex
-  #   include-before-body:  
-  #     - _before-body.tex
+  pdf:
+    documentclass: scrreprt
+    toc-depth: 3
+    number-depth: 3
+    fig-pos: htb
+    keep-tex: true
+    df-print: tibble
+    filters: 
+      - filters/dollar.lua
+      - filters/hl.lua
+    include-in-header: 
+      - _preamble.tex
+    include-before-body:  
+      - _before-body.tex
 

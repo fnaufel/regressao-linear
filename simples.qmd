@@ -36,7 +36,7 @@ publicidade <- read_csv(
     vendas = sales
   )
 
-publicidade
+publicidade %>% gt()
 ```
 
 
@@ -301,3 +301,247 @@ $$
 :::
 
 ??? ISLR p. 76
+
+
+## Visão geométrica
+
+@faraway16:_linear_model_r
+
+### Um pequeno exemplo
+
+Para podermos visualizar a geometria, vamos considerar um conjunto de dados com apenas $3$ observações.
+
+A variável `x` é o único preditor, e a variável `y` é a resposta.
+
+```{r}
+df <- tibble(
+  x = 1:3,
+  y = c(4, 3, 8)
+)
+```
+
+```{r}
+#| echo: false
+df %>% gt()
+```
+
+Graficamente:
+
+```{r}
+#| echo: false
+p <- df %>% 
+  ggplot(aes(x, y)) + 
+    geom_point() +
+    scale_x_continuous(breaks = 0:4, limits = c(0, 4)) +
+    scale_y_continuous(breaks = 0:9, limits = c(0, 9)) +
+    coord_equal()
+
+p
+```
+
+Com um único preditor, este é um exemplo de regressão simples. Queremos achar uma equação da forma
+
+$$
+\hat y = \beta_0 + \beta_1x
+$$
+
+com valores de $\beta_0$ e $\beta_1$ que garantam a menor soma dos quadrados dos resíduos.
+
+Usamos o R para achar os coeficientes e outras informações sobre este modelo:
+
+```{r}
+modelo <- lm(y ~ x, df)
+summary(modelo)
+```
+
+```{r}
+#| echo: false
+b0 <- coef(modelo)[1]
+b1 <- coef(modelo)[2]
+```
+
+A equação da reta que procuramos é
+
+$$
+\hat y = `r b0` + `r b1` x
+$$
+
+No gráfico, os valores de $\hat y$, para cada valor de $x$, são mostrados em vermelho. A reta de regressão é mostrada em azul:
+
+```{r}
+#| echo: false
+p +
+  geom_abline(intercept = b0, slope = b1, color = 'blue') +
+  geom_point(aes(y = fitted.values(modelo)), color = 'red')
+```
+
+Os valores de $y$, os valores previstos e os resíduos são
+
+```{r}
+#| echo: false
+modelo_aumentado <- modelo %>% 
+  augment()
+  
+modelo_aumentado %>% 
+  select(x, y, previsto = .fitted, resíduo = .resid) %>% 
+  gt()
+```
+
+Usando Álgebra Linear, vamos encarar este modelo de outra forma.
+
+A coluna `y` dos dados é representada pelo vetor
+
+$$
+\vec{Y} = \begin{bmatrix}
+  4 \\ 3 \\ 8
+\end{bmatrix}
+$$
+
+Vamos definir a seguinte matriz:
+
+$$
+\vec{X} = \begin{bmatrix}
+  1 & 1 \\ 1 & 2 \\ 1 & 3
+\end{bmatrix}
+$$
+
+Nesta matriz, a segunda coluna corresponde à coluna `x` dos dados. A primeira coluna, com valores $1$, está ali para podermos escrever o modelo como a equação matricial
+
+$$
+\vec{\widehat{Y}} = \vec{X} \cdot \begin{bmatrix}
+  \beta_0 \\ \beta_1
+\end{bmatrix}
+$$
+
+que, de forma mais detalhada, é
+
+$$
+\begin{bmatrix}
+  \widehat{y_1} \\ \widehat{y_2} \\ \widehat{y_3}
+\end{bmatrix}
+=
+\begin{bmatrix}
+  1 & 1 \\ 1 & 2 \\ 1 & 3
+\end{bmatrix}
+\cdot \begin{bmatrix}
+  \beta_0 \\ \beta_1
+\end{bmatrix}
+$$
+
+ou, ainda,
+
+$$
+\begin{bmatrix}
+  \widehat{y_1} \\ \widehat{y_2} \\ \widehat{y_3}
+\end{bmatrix}
+=
+\begin{bmatrix}
+  \beta_0 + \phantom{1\cdot{}}\beta_1 \\
+  \beta_0 + 2\cdot \beta_1 \\
+  \beta_0 + 3\cdot \beta_1
+\end{bmatrix}
+$$
+
+ou, explicitando os vetores que correspondem às colunas da matriz $\vec{X}$:
+
+$$
+\begin{bmatrix}
+  \widehat{y_1} \\ \widehat{y_2} \\ \widehat{y_3}
+\end{bmatrix}
+=
+\beta_0 \cdot 
+\begin{bmatrix}
+  1 \\ 1 \\ 1
+\end{bmatrix}
++ 
+\beta_1 \cdot
+\begin{bmatrix}
+  1 \\ 2 \\ 3
+\end{bmatrix}
+$$ {#eq-modelo}
+
+Agora, as considerações geométricas:
+
+1. As colunas `x` e `y` do conjunto de dados são vetores com $3$ componentes, que vivem em $\reais^3$.
+
+1. O vetor $\vec{\widehat Y}$ também tem $3$ componentes, mas a @eq-modelo está dizendo que $\vec{\widehat Y}$ é uma combinação linear dos dois vetores (linearmente independentes) $[1\ 1\ 1]^T$ e $[1\ 2\ 3]^T$.
+
+1. Os dois vetores $[1\ 1\ 1]^T$ e $[1\ 2\ 3]^T$ não são capazes de gerar todo o espaço $\reais^3$; o espaço gerado por eles é um plano.
+
+1. O vetor $\vec Y$ (com os valores verdadeiros da variável de resposta $y$) não está no plano gerado pelos vetores $[1\ 1\ 1]^T$ e $[1\ 2\ 3]^T$ (verifique).
+
+1. A relação verdadeira entre $\vec Y$ e $\vec X$ é
+
+   $$
+    \begin{bmatrix}
+      y_1 \\ {y_2} \\ {y_3}
+    \end{bmatrix}
+    =
+    \beta_0 \cdot 
+    \begin{bmatrix}
+      1 \\ 1 \\ 1
+    \end{bmatrix}
+    + 
+    \beta_1 \cdot
+    \begin{bmatrix}
+      1 \\ 2 \\ 3
+    \end{bmatrix}
+    +
+    \begin{bmatrix}
+      \varepsilon_1 \\ \varepsilon_2 \\ \varepsilon_3
+    \end{bmatrix}
+   $$
+   onde os valores $\varepsilon_i$ são os erros que o modelo não consegue capturar.
+   
+1. Estes erros $\varepsilon_i$ são estimados pelos resíduos $\widehat{\varepsilon_i}$, de maneira que podemos escrever
+
+   $$
+    \begin{bmatrix}
+      \widehat{y_1} \\ \widehat{y_2} \\ \widehat{y_3}
+    \end{bmatrix}
+    =
+    \beta_0 \cdot 
+    \begin{bmatrix}
+      1 \\ 1 \\ 1
+    \end{bmatrix}
+    + 
+    \beta_1 \cdot
+    \begin{bmatrix}
+      1 \\ 2 \\ 3
+    \end{bmatrix}
+    +
+    \begin{bmatrix}
+      \widehat{\varepsilon_1} \\ 
+      \widehat{\varepsilon_2} \\ 
+      \widehat{\varepsilon_3}
+    \end{bmatrix}
+   $$
+
+   O vetor de resíduos é
+   
+   $$
+   \vec{\widehat{\varepsilon}} 
+   = 
+    \begin{bmatrix}
+      \widehat{\varepsilon_1} \\ 
+      \widehat{\varepsilon_2} \\ 
+      \widehat{\varepsilon_3}
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+       \phantom{-}1 \\ -2 \\ \phantom{-}1
+    \end{bmatrix}
+   $$
+
+A situação é mostrada na figura:
+
+![](images/regressao-visao-geometrica.png)
+
+O plano cinza é o espaço gerado pelos vetores $[1\ 1\ 1]^T$ e $[1\ 2\ 3]^T$. Na equação paramétrica deste plano, $r$ e $s$ correspondem aos valores possíveis de $\beta_0$ e $\beta_1$, respectivamente.
+
+O vetor $\vec{\widehat{Y}}$ (dos valores previstos pelo modelo) é a projeção ortogonal do vetor $\vec{Y}$ (dos valores verdadeiros da variável de resposta) sobre o plano gerado pelas colunas da matriz $\vec X$. Mais abaixo, vamos ver os detalhes desta projeção. O importante é entender que, quaisquer que sejam os valores de $\beta_0$ e $\beta_1$, o vetor $\vec{\widehat{Y}}$ de valores previstos vai estar sempre limitado ao plano gerado pelas colunas da matriz $\vec{X}$. 
+
+Isto corresponde à intuição de que estamos perdendo informação ao tentar representar objetos de dimensão $3$ (o número de observações do conjunto de dados) em um espaço de dimensão $2$ (o número de parâmetros do modelo: $\beta_0$ e $\beta_1$). 
+
+???
+

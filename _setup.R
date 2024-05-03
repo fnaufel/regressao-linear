@@ -132,6 +132,7 @@ library(latex2exp)
 library(kableExtra)
 options(knitr.kable.NA = '')
 library(conflicted)
+library(gt)
 
 # Tidyverse ---------------------------------------------------------------
 
